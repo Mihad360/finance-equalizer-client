@@ -1,15 +1,13 @@
-"use client"
+"use client";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 const Navbar = () => {
-
   return (
-    <nav className="bg-white py-2">
+    <nav className="py-2 bg-transparent z-50 fixed w-full">
       <div className="max-w-[1400px] mx-auto flex justify-between items-center">
         {/* Logo & Name */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-5">
           <Image
             src="https://i.ibb.co.com/WWTvQb3s/business-finance-professional-logo-template-vector-29032870-removebg-preview.png"
             alt="logo"
@@ -24,8 +22,8 @@ const Navbar = () => {
         {/* Desktop Menu */}
         <div className="hidden md:flex">
           <Link
-            href="/dashboard"
-            className="text-blue-700 font-semibold text-lg relative group px-4 py-2"
+            href="/dashboard/finance-stats"
+            className="text-blue-700 font-bold text-xl relative group px-4 py-2"
           >
             Dashboard
             <span className="absolute left-0 bottom-0 w-0 h-[2px] bg-blue-600 transition-all group-hover:w-full"></span>
