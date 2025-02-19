@@ -12,7 +12,7 @@ const Sidebar = () => {
     { name: "Category Overview", href: "/dashboard/categories-stats" },
     { name: "Add Finance Transaction", href: "/dashboard/add-finance" },
     { name: "Manage Transactions", href: "/dashboard/manage-transactions" },
-    { name: "Reports", href: "/reports" },
+    // { name: "Reports", href: "/reports" },
   ];
   // console.log(pathname);
 

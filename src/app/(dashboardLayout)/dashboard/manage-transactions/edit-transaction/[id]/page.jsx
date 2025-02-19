@@ -12,6 +12,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { getFinanceEditData } from "@/utils/getFinanceData";
 import useAxiosPublic from "@/utils/useAxiosPublic";
 import { useEffect, useState, use } from "react";
+import { Bounce, toast } from "react-toastify";
 
 const Page = ({ params }) => {
   const { id } = use(params);
@@ -44,7 +45,19 @@ const Page = ({ params }) => {
     };
     console.log(financeInfo);
     await axiosPublic.patch(`/finance/${id}`, financeInfo).then((res) => {
-      console.log(res);
+      if (res?.data?.modifiedCount > 0) {
+        toast("✔️ Transaction deleted", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          progress: undefined,
+          theme: "dark",
+          transition: Bounce,
+        });
+      }
     });
   };
 

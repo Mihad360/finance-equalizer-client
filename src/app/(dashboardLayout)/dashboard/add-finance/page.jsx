@@ -14,15 +14,17 @@ import {
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import useAxiosPublic from "@/utils/useAxiosPublic";
+import { Bounce, toast } from "react-toastify";
 
 const AddFinance = () => {
   const [errors, setErrors] = useState({});
   const axiosPublic = useAxiosPublic();
-  const formRef = useRef()
+  const formRef = useRef();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const title = e.target.title.value;
+    const email = e.target.email.value;
     const date = e.target.date.value;
     const amount = e.target.amount.value;
     const category = e.target.category.value;
@@ -32,6 +34,7 @@ const AddFinance = () => {
     const errors = {};
 
     if (!title) errors.title = "Title is required";
+    if (!email) errors.title = "Email is required";
     if (!date) errors.date = "Date is required";
     if (!amount) errors.amount = "Amount is required";
     if (!category) errors.category = "Category is required";
@@ -45,6 +48,7 @@ const AddFinance = () => {
     const finance = {
       transaction_id: uuidv4(),
       title: title,
+      email: email,
       date: date,
       amount: parseFloat(amount),
       category: category,
@@ -53,8 +57,20 @@ const AddFinance = () => {
     };
     // console.log(finance);
     await axiosPublic.post("/finance", finance).then((res) => {
-      console.log(res);
-      formRef.current.reset()
+      if (res?.data?.insertedId) {
+        toast("✔️ Transaction Added", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          progress: undefined,
+          theme: "dark",
+          transition: Bounce,
+        });
+        formRef.current.reset();
+      }
     });
   };
 
@@ -64,7 +80,8 @@ const AddFinance = () => {
         Add Your Recent Finance
       </h1>
       <form
-        onSubmit={handleSubmit} ref={formRef}
+        onSubmit={handleSubmit}
+        ref={formRef}
         className="max-w-5xl mx-auto space-y-6 p-6 bg-white rounded-lg shadow-md"
       >
         <div className="flex gap-5">
@@ -81,6 +98,23 @@ const AddFinance = () => {
             />
             {errors.title && (
               <p className="text-sm text-red-500">{errors.title}</p>
+            )}
+          </div>
+          <div className="w-full space-y-2">
+            <Label
+              htmlFor="email"
+              className="text-base text-rose-500 font-semibold"
+            >
+              Enter your email you used in budget
+            </Label>
+            <Input
+              id="email"
+              name="email"
+              placeholder="Enter Your Email"
+              className="p-3 border rounded-md border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all"
+            />
+            {errors.email && (
+              <p className="text-sm text-red-500">{errors.email}</p>
             )}
           </div>
 
